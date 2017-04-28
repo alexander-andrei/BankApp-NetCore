@@ -10,7 +10,7 @@ namespace MvcApplication
 {
     public class Startup
     {
-        private const string UserConfiguration = "/Config/Users/config-settings.json";
+        private const string UserConfiguration = "/Config/config-settings.json";
 
         public Startup(IHostingEnvironment env)
         {
@@ -32,7 +32,7 @@ namespace MvcApplication
             services.AddMvc();
 
             // Register configurations.
-            services.Configure<UserConfiguration>(Configuration);
+            services.Configure<ConnectionConfiguration>(Configuration);
 
             // Add application services.
             services.AddScoped<IEngine, Engine>();

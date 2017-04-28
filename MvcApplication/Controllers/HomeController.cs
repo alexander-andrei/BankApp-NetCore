@@ -1,30 +1,24 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using MvcApplication.Attributes;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Config.Users;
-using MvcApplication.Services;
 
 namespace MvcApplication.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserConfiguration _confgurations;
+        private readonly ConnectionConfiguration _confgurations;
 
-        public HomeController(IOptions<UserConfiguration> subOptionsAccessor)
+        public HomeController(IOptions<ConnectionConfiguration> subOptionsAccessor)
         {
             _confgurations = subOptionsAccessor.Value;
         }
 
         public ViewResult Index()
         {
-            var x = _confgurations.ConnectionString;
-
-            Console.WriteLine(x);
-            using (var context = new UserDbContext())
+            using (var context = new UserDbContext(_confgurations.ConnectionString))
             {
                 var users = context.Users.ToList();
                 foreach (var user in users)

@@ -1,8 +1,8 @@
 ﻿namespace MvcApplication.Config.Users
 {
-    public class UserConfiguration
+    public class ConnectionConfiguration
     {
-        public UserConfiguration()
+        public ConnectionConfiguration()
         {
             ConnectionString = "someConnection";
         }
