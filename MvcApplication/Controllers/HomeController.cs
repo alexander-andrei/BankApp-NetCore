@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Bundles.Core.Entity;
+using MvcApplication.Bundles.Transactions.Api;
 using MvcApplication.Config.Users;
 
 namespace MvcApplication.Controllers
@@ -37,23 +38,34 @@ namespace MvcApplication.Controllers
                 throw new Exception("User was not found");
             }
 
+            // LOGIC TO FIN USER'S BANK BY ACCOUNT NUMBER
+
             // create beneficiary
             var beneficiary = new Beneficiary()
             {
                 Name = "Ben",
                 Surname = "Eficiary",
                 Account = "19321234521",
-                TransferredSum = 1241.23
+                TransferredSum = 1241.23,
+                BankId = 1
             };
-
-            // LOGIC TO FIN USER BY ACCOUNT NUMBER
-
-            // connect to beneficiary bank
 
 
             // create transaction
             // validate transaction
             // send transaction to bank
+            try
+            {
+                var activeBankDbContext = new ActiveBankDbContext(_confgurations.ConnectionString);
+                var bankData = new BankData(beneficiary.Id, activeBankDbContext);
+                var beneficiaryBank = bankData.MakeTransaction();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
             // check if transaction was ok
             // save user ballance
             // save transaction details in db

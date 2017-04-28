@@ -20,6 +20,5 @@
     <Folder Include="Bundles\Core\Services" />
     <Folder Include="Bundles\CreditCardInformation" />
     <Folder Include="Bundles\Payment" />
-    <Folder Include="Bundles\Transactions\Api" />
   </ItemGroup>
 </Project>
