@@ -17,6 +17,6 @@ namespace MvcApplication.Bundles.Core.Entity
         public string Account { get; set; }
 
         [MaxLength(45), Required]
-        public decimal Ballance { get; set; }
+        public double Ballance { get; set; }
     }
 }

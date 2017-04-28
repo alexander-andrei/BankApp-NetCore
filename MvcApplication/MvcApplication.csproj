@@ -17,9 +17,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Bundles\Core\Entities" />
+    <Folder Include="Bundles\Core\Services" />
     <Folder Include="Bundles\CreditCardInformation" />
     <Folder Include="Bundles\Payment" />
     <Folder Include="Bundles\Transactions\Api" />
-    <Folder Include="Bundles\Transactions\Model" />
   </ItemGroup>
 </Project>
