@@ -7,7 +7,7 @@ namespace MvcApplication.Bundles.Core.Context
     {
         private readonly string _connectionString;
 
-        public DbSet<Beneficiary> Beneficiaries;
+        public DbSet<Beneficiary> Beneficiaries { get; set; }
 
         public BeneficiaryDbContext(string connectionString)
         {

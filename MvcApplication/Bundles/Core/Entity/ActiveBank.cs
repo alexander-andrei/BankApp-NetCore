@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MvcApplication.Bundles.Core.Entity
+﻿namespace MvcApplication.Bundles.Core.Entity
 {
     public class ActiveBank
     {

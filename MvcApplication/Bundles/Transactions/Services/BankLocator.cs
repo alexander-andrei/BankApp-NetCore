@@ -1,6 +1,4 @@
-﻿using MvcApplication.Bundles.Core.Entity;
-
-namespace MvcApplication.Bundles.Transactions.Services
+﻿namespace MvcApplication.Bundles.Transactions.Services
 {
     public class BankLocator
     {

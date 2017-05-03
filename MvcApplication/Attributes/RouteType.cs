@@ -1,7 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Routing;
-
-namespace MvcApplication.Attributes
+﻿namespace MvcApplication.Attributes
 {
     public class RouteType : System.Attribute
     {

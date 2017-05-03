@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using Microsoft.Extensions.Caching.Memory;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Bundles.Core.Entity;
 

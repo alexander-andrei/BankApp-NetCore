@@ -7,7 +7,7 @@ namespace MvcApplication.Bundles.Transactions.Context
     {
         private readonly  string _connectionString;
 
-        public DbSet<Transaction> Transactions;
+        public DbSet<Transaction> Transactions { get; set; }
 
         public TransactionDbContext(string connectionString)
         {
