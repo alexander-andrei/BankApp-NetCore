@@ -5,16 +5,16 @@ namespace MvcApplication.Bundles.Core.Context
 {
     public class UserDbContext : DbContext
     {
-        private readonly string _conectionString;
+        private readonly string _connectionString;
 
         public DbSet<User> Users { get; set; }
 
-        public UserDbContext(string conectionString)
+        public UserDbContext(string connectionString)
         {
-            _conectionString = conectionString;
+            _connectionString = connectionString;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseMySql(@_conectionString);
+            => optionsBuilder.UseMySql(@_connectionString);
     }
 }

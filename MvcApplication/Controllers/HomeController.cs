@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Bundles.Core.Entity;
 using MvcApplication.Bundles.Transactions.Api;
+using MvcApplication.Bundles.Transactions.Entity;
+using MvcApplication.Bundles.Transactions.Services;
 using MvcApplication.Config.Users;
 
 namespace MvcApplication.Controllers
@@ -33,42 +35,38 @@ namespace MvcApplication.Controllers
                 }
             }
 
-            if (curentUser == null)
-            {
-                throw new Exception("User was not found");
-            }
-
-            // LOGIC TO FIN USER'S BANK BY ACCOUNT NUMBER
-
             // create beneficiary
             var beneficiary = new Beneficiary()
             {
                 Name = "Ben",
                 Surname = "Eficiary",
                 Account = "19321234521",
-                TransferredSum = 1241.23,
-                BankId = 1
+                TransferredSum = 1241.23
             };
 
+            // Find Beneficiary bank
+            var benId = new BankLocator().GetUserBank(beneficiary.Account);
+
+            // Set Beneficiary bank id
+            beneficiary.BankId = benId;
 
             // create transaction
-            // validate transaction
+            var transaction = new Transaction()
+            {
+                Information = "some info that does not exist",
+                ActiveBankId = beneficiary.BankId,
+                BeneficiaryId = beneficiary.Id,
+                UserId = curentUser.Id
+            };
+
             // send transaction to bank
-            try
-            {
-                var activeBankDbContext = new ActiveBankDbContext(_confgurations.ConnectionString);
-                var bankData = new BankData(beneficiary.Id, activeBankDbContext);
-                var beneficiaryBank = bankData.MakeTransaction();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            var activeBankContext = new ActiveBankDbContext(_confgurations.ConnectionString);
+            var benBankApi = new BankApi(beneficiary.BankId, activeBankContext, beneficiary).MakeTransaction();
 
             // check if transaction was ok
-            // save user ballance
+
             // save transaction details in db
+            // save user ballance
 
             return View();
         }

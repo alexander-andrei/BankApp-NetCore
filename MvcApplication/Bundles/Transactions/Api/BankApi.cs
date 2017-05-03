@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using Microsoft.Extensions.Caching.Memory;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Bundles.Core.Entity;
 
 namespace MvcApplication.Bundles.Transactions.Api
 {
-    public class BankData
+    public class BankApi
     {
         private readonly int _bankId;
         private readonly ActiveBankDbContext _activeBankDbContext;
+        private readonly Beneficiary _beneficiary;
 
-        public BankData(int bankId, ActiveBankDbContext activeBankDbContext)
+        public BankApi(int bankId, ActiveBankDbContext activeBankDbContext, Beneficiary beneficiary)
         {
             _bankId = bankId;
             _activeBankDbContext = activeBankDbContext;
+            _beneficiary = beneficiary;
         }
 
         public bool MakeTransaction()
         {
-            var apiLink = GetBankInformation().ApiEntryPoint;
+            // Use beneficiary to make the transaction
+            // POST to api url using beneficiary
+            var apiUrl = GetBankInformation().ApiEntryPoint;
 
-            return apiLink != null;
+            return true;
         }
 
         private ActiveBank GetBankInformation()
