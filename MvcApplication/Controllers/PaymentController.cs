@@ -8,5 +8,10 @@ namespace MvcApplication.Controllers
         {
             return View();
         }
+
+        public void DownloadPdfPayment(int paymentId)
+        {
+            // TODO: make logic to download payment
+        }
     }
 }
