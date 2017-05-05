@@ -9950,12 +9950,6 @@
         }
       }
     },
-    "dependencies": {
-      "Pomelo.EntityFrameworkCore.MySql": {
-        "target": "Package",
-        "version": "[1.1.2-preview-10038, )"
-      }
-    },
     "frameworks": {
       "netcoreapp1.1": {
         "dependencies": {
@@ -9986,6 +9980,10 @@
           "Microsoft.VisualStudio.Web.BrowserLink": {
             "target": "Package",
             "version": "1.1.0"
+          },
+          "Pomelo.EntityFrameworkCore.MySql": {
+            "target": "Package",
+            "version": "1.1.2-preview-10038"
           }
         }
       }
