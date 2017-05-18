@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MvcApplication.Bundles.Payments.Context;
 using MvcApplication.Bundles.Payments.Entity;
-using MvcApplication.Config.Users;
+using MvcApplication.Config.Connection;
 
 namespace MvcApplication.Controllers
 {

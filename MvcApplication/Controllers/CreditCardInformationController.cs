@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using MvcApplication.Bundles.CreditCardInformation.Context;
 using MvcApplication.Bundles.CreditCardInformation.Entity;
-using MvcApplication.Config.Users;
+using MvcApplication.Config.Connection;
 
 namespace MvcApplication.Controllers
 {
@@ -11,22 +13,33 @@ namespace MvcApplication.Controllers
     {
         private readonly string _connectionString;
 
-        public CreditCardInformationController(ConnectionConfiguration configuration)
+        public CreditCardInformationController(IOptions<ConnectionConfiguration> configuration)
         {
-            _connectionString = configuration.ConnectionString;
+            _connectionString = configuration.Value.ConnectionString;
         }
 
-        public ViewResult Index()
+        public ViewResult Index(int id)
         {
-            return View();
+            List<CreditCard> creditCards;
+            using (var ccCtx = new CreditCardDbContext(_connectionString))
+            {
+                creditCards = ccCtx.CreditCards.Where(cc => cc.UserId == id).ToList();
+            }
+
+            return View(creditCards);
         }
 
         public void ChangePinNumber(int creditCardId, string pinNumber)
         {
             try
             {
-                var cc = GetCreditCard(creditCardId);
-                cc.PinNumber = pinNumber;
+                using (var userCtx = new CreditCardDbContext(_connectionString))
+                {
+                    var creditCard = userCtx.CreditCards.Where(cc => cc.Id == creditCardId).ToList().First();
+
+                    creditCard.PinNumber = pinNumber;
+                    userCtx.SaveChanges();
+                }
             }
             catch (Exception e)
             {
@@ -39,34 +52,19 @@ namespace MvcApplication.Controllers
         {
             try
             {
-                var cc = GetCreditCard(creditCardId);
-                cc.Security3D = status;
+                using (var userCtx = new CreditCardDbContext(_connectionString))
+                {
+                    var creditCard = userCtx.CreditCards.Where(cc => cc.Id == creditCardId).ToList().First();
+
+                    creditCard.Security3D = status;
+                    userCtx.SaveChanges();
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-        }
-
-        private CreditCard GetCreditCard(int creditCardId)
-        {
-            CreditCard creditCard = null;
-            using (var userCtx = new CreditCardDbContext(_connectionString))
-            {
-                var users = userCtx.CreditCards.Where(cc => cc.Id == creditCardId).ToList();
-                foreach (var user in users)
-                {
-                    creditCard = user;
-                }
-            }
-
-            if (creditCard == null)
-            {
-                throw new Exception("No credit card was found");
-            }
-
-            return creditCard;
         }
     }
 }

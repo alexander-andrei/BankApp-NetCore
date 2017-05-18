@@ -1,8 +1,5 @@
-﻿@model object
-
-@{
-    Layout = null;
-}
+﻿@using MvcApplication.Bundles.CreditCardInformation.Entity
+@model List<CreditCard>
 
 <!DOCTYPE html>
 
@@ -12,7 +9,41 @@
 </head>
 <body>
 <div>
-      
+
+    <table class="tg">
+        <tr>
+            <th class="tg-yw4l">Number</th>
+            <th class="tg-yw4l">Type</th>
+        </tr>
+        @foreach (var creditCard in Model)
+        {
+            <tr>
+                <td class="tg-yw4l">@creditCard.CardNumber</td>
+                <td class="tg-yw4l">@creditCard.Type</td>
+                @if (@creditCard.Security3D)
+                {
+                    <td class="tg-yw4l"><button cc="@creditCard.Id" value="false">Disable 3D</button></td>
+                }
+                @if (!@creditCard.Security3D)
+                {
+                    <td class="tg-yw4l"><button cc="@creditCard.Id" value="true">Enable 3D</button></td>
+                }
+            </tr>
+        }
+    </table>
+
+    <script>
+        $("button").click(function() {
+            $.ajax({
+                url: '/CreditCardInformation/Manage3DSecure',
+                type: 'PUT',
+                data: {creditCardId: $(this).attr("cc"), status: this.value},
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

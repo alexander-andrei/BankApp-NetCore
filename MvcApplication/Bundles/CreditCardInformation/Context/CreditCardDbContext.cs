@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MvcApplication.Bundles.CreditCardInformation.Entity;
-using MvcApplication.Config.Users;
 
 namespace MvcApplication.Bundles.CreditCardInformation.Context
 {

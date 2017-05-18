@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using MvcApplication.Bundles.CreditCardInformation.Context;
-using MvcApplication.Bundles.CreditCardInformation.Entity;
-using MvcApplication.Config.Users;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MvcApplication.Config.Connection;
 
 namespace MvcApplication.Controllers
 {
@@ -11,20 +8,14 @@ namespace MvcApplication.Controllers
     {
         private readonly string _connectionString;
 
-        public HomeController(ConnectionConfiguration configuration)
+        public HomeController(IOptions<ConnectionConfiguration> configuration)
         {
-            _connectionString = configuration.ConnectionString;
+            _connectionString = configuration.Value.ConnectionString;
         }
 
-        public ViewResult Index(int userId)
+        public ActionResult Index(int userId)
         {
-            List<CreditCard> creditCards = null;
-            using (var ccCtx = new CreditCardDbContext(_connectionString))
-            {
-                creditCards = ccCtx.CreditCards.Where(cc => cc.UserId == userId).ToList();
-            }
-
-            return (creditCards == null) ? null : View(creditCards);
+            return View();
         }
     }
 }

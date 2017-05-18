@@ -1,4 +1,4 @@
-﻿namespace MvcApplication.Config.Users
+﻿namespace MvcApplication.Config.Connection
 {
     public class ConnectionConfiguration
     {

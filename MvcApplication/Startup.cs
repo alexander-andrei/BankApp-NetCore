@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MvcApplication.Config.Users;
+using MvcApplication.Config.Connection;
 using MvcApplication.Services;
 
 namespace MvcApplication
@@ -30,6 +30,9 @@ namespace MvcApplication
         {
             // Add framework services.
             services.AddMvc();
+
+            // Adds services required for using options.
+            services.AddOptions();
 
             // Register configurations.
             services.Configure<ConnectionConfiguration>(Configuration);

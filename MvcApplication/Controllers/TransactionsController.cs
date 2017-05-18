@@ -8,7 +8,7 @@ using MvcApplication.Bundles.Transactions.Api;
 using MvcApplication.Bundles.Transactions.Context;
 using MvcApplication.Bundles.Transactions.Entity;
 using MvcApplication.Bundles.Transactions.Services;
-using MvcApplication.Config.Users;
+using MvcApplication.Config.Connection;
 
 namespace MvcApplication.Controllers
 {
