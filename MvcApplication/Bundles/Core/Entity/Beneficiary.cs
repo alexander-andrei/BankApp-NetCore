@@ -16,10 +16,7 @@ namespace MvcApplication.Bundles.Core.Entity
         [MaxLength(45), MinLength(11), Required]
         public string Account { get; set; }
 
-        [MaxLength(5), MinLength(1), Required]
+        [MaxLength(11)]
         public int BankId { get; set; }
-
-        [MaxLength(45), MinLength(3), Required]
-        public double TransferredSum { get; set; }
     }
 }

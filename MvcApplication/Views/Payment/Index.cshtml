@@ -1,18 +1,33 @@
-﻿@model object
+﻿@model List<MvcApplication.Bundles.Payments.Dto.PaymentDto>
 
-@{
-    Layout = null;
-}
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
 <div>
-      
+
+    <table class="tg">
+        <tr>
+            <th class="tg-yw4l">Beneficiary name</th>
+            <th class="tg-yw4l">Transfered sum</th>
+            <th class="tg-yw4l">Type</th>
+        </tr>
+        @foreach (var payment in Model)
+        {
+            <tr>
+                <td class="tg-yw4l">@payment.Beneficiary.Name @payment.Beneficiary.Surname</td>
+                <td class="tg-yw4l">@payment.TransferedValue</td>
+                <td class="tg-yw4l"><button cc="@payment.Id" value="false">Download Pdf</button></td>
+            </tr>
+        }
+    </table>
+
+    <script>
+        $("button").click(function() {
+//            $.ajax({
+//                url: '/CreditCardInformation/Manage3DSecure',
+//                type: 'PUT',
+//                data: {creditCardId: $(this).attr("cc"), status: this.value},
+//                success: function(result) {
+//                    location.reload();
+//                }
+//            });
+        });
+    </script>
 </div>
-</body>
-</html>

@@ -1,40 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MvcApplication.Bundles.Core.Services;
 using MvcApplication.Bundles.Payments.Context;
+using MvcApplication.Bundles.Payments.Dto;
 using MvcApplication.Bundles.Payments.Entity;
+using MvcApplication.Bundles.Payments.Services;
 using MvcApplication.Config.Connection;
 
 namespace MvcApplication.Controllers
 {
     public class PaymentController : Controller
     {
-        private string _connectionString;
+        private readonly PaymentsManager _paymentsManager;
+        private readonly BeneficiaryManager _beneficiaryManager;
 
-        public PaymentController(ConnectionConfiguration connection)
+        public PaymentController(IOptions<ConnectionConfiguration> connection)
         {
-            _connectionString = connection.ConnectionString;
+            _paymentsManager = new PaymentsManager(connection.Value.ConnectionString);
+            _beneficiaryManager = new BeneficiaryManager(connection.Value.ConnectionString);
         }
 
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            return View();
-        }
+            var payments = _paymentsManager.GetAll(id);
+            var paymentDtos = new List<PaymentDto>();
 
-        public void DownloadPdfPayment(int paymentId)
-        {
-            Payment payment = null;
-            using (var paymentCtx = new PaymentDbContext(_connectionString))
+            foreach (var payment in payments)
             {
-                payment = paymentCtx.Payments.Where(p => p.Id == paymentId).ToList().First();
+                try
+                {
+                    var ben = _beneficiaryManager.GetAll(payment.BeneficiaryId).First();
+
+                    var paymentDto = new PaymentDto()
+                    {
+                        Id = payment.Id,
+                        Beneficiary = ben,
+                        TransferedValue = payment.TransferedValue
+                    };
+
+                    paymentDtos.Add(paymentDto);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
             }
 
-            if (payment == null)
-            {
-                throw new Exception("No payment was found");
-            }
-
-            // TODO: make logic to download payment
+            return View(paymentDtos);
         }
     }
 }

@@ -1,27 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MvcApplication.Bundles.Core.Services.Manager;
 using MvcApplication.Bundles.CreditCardInformation.Context;
 using MvcApplication.Bundles.CreditCardInformation.Entity;
 
 namespace MvcApplication.Bundles.CreditCardInformation.Services
 {
-    public class CreditCardManager
+    public class CreditCardManager : BaseManager<CreditCard>
     {
-        private readonly string _connectionString;
-
-        public CreditCardManager(string connectionString)
+        public CreditCardManager(string connectionString) : base(connectionString)
         {
-            _connectionString = connectionString;
         }
 
-
-        public List<CreditCard> GetUserCreditCards(int id)
+        public override List<CreditCard> GetAll(int id = 0)
         {
             List<CreditCard> creditCards;
-            using (var ccCtx = new CreditCardDbContext(_connectionString))
+
+            try
             {
-                creditCards = ccCtx.CreditCards.Where(cc => cc.UserId == id).ToList();
+                using (var ccCtx = new CreditCardDbContext(GetConnectionString()))
+                {
+                    creditCards = ccCtx.CreditCards.Where(cc => cc.UserId == id).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
 
             return creditCards;
@@ -31,7 +37,7 @@ namespace MvcApplication.Bundles.CreditCardInformation.Services
         {
             try
             {
-                using (var userCtx = new CreditCardDbContext(_connectionString))
+                using (var userCtx = new CreditCardDbContext(GetConnectionString()))
                 {
                     var creditCard = userCtx.CreditCards.Where(cc => cc.Id == creditCardId).ToList().First();
 
@@ -46,11 +52,11 @@ namespace MvcApplication.Bundles.CreditCardInformation.Services
             }
         }
 
-        public void Change3dSecureStatus(int creditCardId, bool status)
+        public void Change3DSecureStatus(int creditCardId, bool status)
         {
             try
             {
-                using (var userCtx = new CreditCardDbContext(_connectionString))
+                using (var userCtx = new CreditCardDbContext(GetConnectionString()))
                 {
                     var creditCard = userCtx.CreditCards.Where(cc => cc.Id == creditCardId).ToList().First();
 

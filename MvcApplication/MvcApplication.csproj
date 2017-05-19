@@ -15,4 +15,7 @@
       <Version>1.1.2-preview-10038</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Bundles\Payments\Api" />
+  </ItemGroup>
 </Project>

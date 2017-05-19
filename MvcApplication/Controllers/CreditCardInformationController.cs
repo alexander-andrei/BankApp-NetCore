@@ -17,7 +17,7 @@ namespace MvcApplication.Controllers
         [HttpGet]
         public ViewResult Index(int id)
         {
-            var creditCards = _creditCardManager.GetUserCreditCards(id);
+            var creditCards = _creditCardManager.GetAll(id);
 
             return View(creditCards);
         }
@@ -31,7 +31,7 @@ namespace MvcApplication.Controllers
         [HttpPut]
         public void Manage3DSecure(int creditCardId, bool status)
         {
-            _creditCardManager.Change3dSecureStatus(creditCardId, status);
+            _creditCardManager.Change3DSecureStatus(creditCardId, status);
         }
     }
 }

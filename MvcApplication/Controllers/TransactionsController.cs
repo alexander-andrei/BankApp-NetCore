@@ -47,14 +47,13 @@ namespace MvcApplication.Controllers
                 Name = "Ben",
                 Surname = "Eficiary",
                 Account = "19321234521",
-                TransferredSum = 1241.23
             };
 
             // check if user has enough money
-            if (beneficiary.TransferredSum > curentUser.Ballance)
-            {
-                return null;
-            }
+//            if (beneficiary.TransferredSum > curentUser.Ballance)
+//            {
+//                return null;
+//            }
 
             // Find Beneficiary bank
             var benId = new BankLocator().GetUserBank(beneficiary.Account);
@@ -95,7 +94,7 @@ namespace MvcApplication.Controllers
                 transactionCtx.SaveChanges();
             }
 
-            curentUser.Ballance = curentUser.Ballance - beneficiary.TransferredSum;
+//            curentUser.Ballance = curentUser.Ballance - beneficiary.TransferredSum;
 
             // save user ballance
             using (var userCtx = new UserDbContext(_confgurations.ConnectionString))
