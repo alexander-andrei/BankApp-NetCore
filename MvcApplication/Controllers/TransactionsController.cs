@@ -37,7 +37,6 @@ namespace MvcApplication.Controllers
         public RedirectToActionResult DoTransaction(int userId, string name, string surname, string accountNo, double value
         )
         {
-            userId = 1;
             var curentUser = _userManager.GetAll(userId).First();
 
             // create beneficiary
@@ -59,7 +58,7 @@ namespace MvcApplication.Controllers
 
             // Set Beneficiary bank id
             beneficiary.BankId = benBankId;
-            Console.WriteLine(beneficiary.Account);
+
             // create transaction
             var transaction = new Transaction()
             {
@@ -73,7 +72,6 @@ namespace MvcApplication.Controllers
             // send transaction to bank
             var activeBankContext = new ActiveBankDbContext(_connectionString);
             var apiTransaction = new BankApi(beneficiary.BankId, activeBankContext, beneficiary).MakeTransaction();
-
 
             // save beneficiary details in db
             _beneficiaryManager.SaveBeneficiary(beneficiary);
