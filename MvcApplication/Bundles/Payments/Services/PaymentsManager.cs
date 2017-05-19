@@ -91,5 +91,22 @@ namespace MvcApplication.Bundles.Payments.Services
 
             return paymentDto;
         }
+
+        public void CreatePayment(Payment payment)
+        {
+            try
+            {
+                using (var transactionCtx = new PaymentDbContext(GetConnectionString()))
+                {
+                    transactionCtx.Payments.Add(payment);
+                    transactionCtx.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }

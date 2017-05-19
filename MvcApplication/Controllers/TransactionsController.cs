@@ -29,13 +29,14 @@ namespace MvcApplication.Controllers
             _transactionManager = new TransactionManager(_connectionString);
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
             return View();
         }
 
-        public RedirectToActionResult DoTransaction(int userId, string name, string surname, string accountNo, double value
-        )
+        [HttpPost]
+        public RedirectToActionResult DoTransaction(int userId, string name, string surname, string accountNo, double value)
         {
             var curentUser = _userManager.GetAll(userId).First();
 
@@ -71,7 +72,7 @@ namespace MvcApplication.Controllers
 
             // send transaction to bank
             var activeBankContext = new ActiveBankDbContext(_connectionString);
-            var apiTransaction = new BankApi(beneficiary.BankId, activeBankContext, beneficiary).MakeTransaction();
+            new BankApi(beneficiary.BankId, activeBankContext, beneficiary).MakeTransaction();
 
             // save beneficiary details in db
             _beneficiaryManager.SaveBeneficiary(beneficiary);
