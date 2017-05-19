@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Bundles.Core.Entity;
@@ -21,6 +22,23 @@ namespace MvcApplication.Bundles.Core.Services
             }
 
             return beneficiaries;
+        }
+
+        public void SaveBeneficiary(Beneficiary beneficiary)
+        {
+            try
+            {
+                using (var benCtx = new BeneficiaryDbContext(GetConnectionString()))
+                {
+                    benCtx.Beneficiaries.Add(beneficiary);
+                    benCtx.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

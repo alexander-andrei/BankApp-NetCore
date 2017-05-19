@@ -19,5 +19,8 @@ namespace MvcApplication.Bundles.Transactions.Entity
 
         [Required]
         public int UserId { get; set; }
+
+        [Required]
+        public double TransferedValue { get; set; }
     }
 }

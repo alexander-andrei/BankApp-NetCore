@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using MvcApplication.Bundles.Core.Context;
 using MvcApplication.Bundles.Core.Entity;
+using MvcApplication.Bundles.Core.Services;
 using MvcApplication.Bundles.Transactions.Api;
-using MvcApplication.Bundles.Transactions.Context;
 using MvcApplication.Bundles.Transactions.Entity;
 using MvcApplication.Bundles.Transactions.Services;
 using MvcApplication.Config.Connection;
@@ -14,94 +14,77 @@ namespace MvcApplication.Controllers
 {
     public class TransactionsController : Controller
     {
-        private readonly ConnectionConfiguration _confgurations;
+        private readonly string _connectionString;
 
-        public TransactionsController(IOptions<ConnectionConfiguration> subOptionsAccessor)
+        private readonly UserManager _userManager;
+        private readonly BeneficiaryManager _beneficiaryManager;
+        private readonly TransactionManager _transactionManager;
+
+        public TransactionsController(IOptions<ConnectionConfiguration> connection)
         {
-            _confgurations = subOptionsAccessor.Value;
+            _connectionString = connection.Value.ConnectionString;
+
+            _userManager = new UserManager(_connectionString);
+            _beneficiaryManager = new BeneficiaryManager(_connectionString);
+            _transactionManager = new TransactionManager(_connectionString);
         }
 
-        public RedirectToActionResult Index(int userId)
+        public ActionResult Index()
         {
-            User curentUser = null;
+            return View();
+        }
 
-            // get user
-            using (var userCtx = new UserDbContext(_confgurations.ConnectionString))
-            {
-                var users = userCtx.Users.Where(u => u.Id == userId).ToList();
-                foreach (var user in users)
-                {
-                    curentUser = user;
-                }
-            }
-
-            if (curentUser == null)
-            {
-                return null;
-            }
+        public RedirectToActionResult DoTransaction(int userId, string name, string surname, string accountNo, double value
+        )
+        {
+            userId = 1;
+            var curentUser = _userManager.GetAll(userId).First();
 
             // create beneficiary
-            // THIS IS A TEST DATA CLASS
             var beneficiary = new Beneficiary()
             {
-                Name = "Ben",
-                Surname = "Eficiary",
-                Account = "19321234521",
+                Name = name,
+                Surname = surname,
+                Account = accountNo,
             };
 
             // check if user has enough money
-//            if (beneficiary.TransferredSum > curentUser.Ballance)
-//            {
-//                return null;
-//            }
+            if (value > curentUser.Ballance)
+            {
+                throw new Exception("User does not have enuf money");
+            }
 
             // Find Beneficiary bank
-            var benId = new BankLocator().GetUserBank(beneficiary.Account);
+            var benBankId = new BankLocator().GetUserBank(beneficiary.Account);
 
             // Set Beneficiary bank id
-            beneficiary.BankId = benId;
-
+            beneficiary.BankId = benBankId;
+            Console.WriteLine(beneficiary.Account);
             // create transaction
             var transaction = new Transaction()
             {
                 Information = "some info that does not exist",
                 ActiveBankId = beneficiary.BankId,
                 BeneficiaryId = beneficiary.Id,
-                UserId = curentUser.Id
+                UserId = curentUser.Id,
+                TransferedValue = value
             };
 
             // send transaction to bank
-            var activeBankContext = new ActiveBankDbContext(_confgurations.ConnectionString);
+            var activeBankContext = new ActiveBankDbContext(_connectionString);
             var apiTransaction = new BankApi(beneficiary.BankId, activeBankContext, beneficiary).MakeTransaction();
 
-            // check if transaction was ok
-            if (!apiTransaction)
-            {
-                return null;
-            }
 
             // save beneficiary details in db
-            using (var benCtx = new BeneficiaryDbContext(_confgurations.ConnectionString))
-            {
-                benCtx.Beneficiaries.Add(beneficiary);
-                benCtx.SaveChanges();
-            }
+            _beneficiaryManager.SaveBeneficiary(beneficiary);
 
             // save transaction details in db
-            using (var transactionCtx = new TransactionDbContext(_confgurations.ConnectionString))
-            {
-                transactionCtx.Transactions.Add(transaction);
-                transactionCtx.SaveChanges();
-            }
+            _transactionManager.SaveTransaction(transaction);
 
-//            curentUser.Ballance = curentUser.Ballance - beneficiary.TransferredSum;
+           curentUser.Ballance = curentUser.Ballance - value;
 
             // save user ballance
-            using (var userCtx = new UserDbContext(_confgurations.ConnectionString))
-            {
-                userCtx.Entry(curentUser).State = EntityState.Modified;
-                userCtx.SaveChanges();
-            }
+            _userManager.UpdateUser(curentUser);
 
             return RedirectToAction("Index", "Home");
         }
