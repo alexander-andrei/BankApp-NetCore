@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using MvcApplication.Bundles.Core.Api.Response;
 using MvcApplication.Bundles.Core.Services;
 using MvcApplication.Bundles.Payments.Api;
 using MvcApplication.Bundles.Payments.Entity;
@@ -19,7 +20,7 @@ namespace MvcApplication.Controllers
                 new BeneficiaryManager(connection.Value.ConnectionString)
             );
 
-            _paymentApi = new PaymentApi(_paymentsManager);
+            _paymentApi = new PaymentApi(_paymentsManager, new StatusCodes());
         }
 
         [HttpGet]

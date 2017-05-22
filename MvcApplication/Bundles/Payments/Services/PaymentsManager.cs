@@ -92,7 +92,7 @@ namespace MvcApplication.Bundles.Payments.Services
             return paymentDto;
         }
 
-        public void CreatePayment(Payment payment)
+        public bool CreatePayment(Payment payment)
         {
             try
             {
@@ -105,8 +105,10 @@ namespace MvcApplication.Bundles.Payments.Services
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return false;
             }
+
+            return true;
         }
     }
 }
