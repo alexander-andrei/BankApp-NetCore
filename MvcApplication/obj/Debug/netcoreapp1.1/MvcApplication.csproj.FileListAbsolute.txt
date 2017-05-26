@@ -2,8 +2,8 @@
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1/MvcApplication.runtimeconfig.json
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1/MvcApplication.runtimeconfig.dev.json
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1/MvcApplication.dll
-/home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1/MvcApplication.pdb
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/obj/Debug/netcoreapp1.1/MvcApplication.csprojResolveAssemblyReference.cache
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/obj/Debug/netcoreapp1.1/MvcApplication.AssemblyInfo.cs
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/obj/Debug/netcoreapp1.1/MvcApplication.dll
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/obj/Debug/netcoreapp1.1/MvcApplication.pdb
+/home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1//MvcApplication.pdb

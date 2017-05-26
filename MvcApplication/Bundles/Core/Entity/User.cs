@@ -18,5 +18,11 @@ namespace MvcApplication.Bundles.Core.Entity
 
         [MaxLength(45), Required]
         public double Ballance { get; set; }
+        
+        [MaxLength(100), Required]
+        public string Email { get; set; }
+        
+        [MaxLength(45), Required]
+        public string Password { get; set; }
     }
 }

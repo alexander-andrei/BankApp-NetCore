@@ -48,6 +48,8 @@ namespace MvcApplication
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            env.EnvironmentName = "Development";
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

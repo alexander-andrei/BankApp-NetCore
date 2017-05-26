@@ -50,5 +50,35 @@ namespace MvcApplication.Bundles.Core.Services
                 throw;
             }
         }
+
+        public bool AuthenticateUser(string email, string password)
+        {
+            User user;
+
+            try
+            {
+                using (var userCtx = new UserDbContext(GetConnectionString()))
+                {
+                    user = userCtx.Users.Where(u => u.Email == email).ToList().First();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (user.Password != password)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }
