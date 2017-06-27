@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "89c6228c7f47f86f13ff61192dee59b555f31bb8"
+    "signature": "f9a087858ed3c1f1e8418dc0903fecc05fc4198b"
   },
   "compilationOptions": {
     "defines": [
@@ -25,6 +25,7 @@
         "dependencies": {
           "Microsoft.AspNetCore": "1.1.1",
           "Microsoft.AspNetCore.Mvc": "1.1.2",
+          "Microsoft.AspNetCore.Session": "1.1.0",
           "Microsoft.AspNetCore.StaticFiles": "1.1.1",
           "Microsoft.EntityFrameworkCore": "1.1.1",
           "Microsoft.Extensions.Logging.Debug": "1.1.1",
@@ -646,6 +647,22 @@
         },
         "compile": {
           "lib/netstandard1.3/Microsoft.AspNetCore.Server.Kestrel.dll": {}
+        }
+      },
+      "microsoft.aspnetcore.session/1.1.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.DataProtection": "1.1.1",
+          "Microsoft.AspNetCore.Http.Abstractions": "1.1.1",
+          "Microsoft.Extensions.Caching.Abstractions": "1.1.1",
+          "Microsoft.Extensions.Logging.Abstractions": "1.1.1",
+          "Microsoft.Extensions.Options": "1.1.1",
+          "NETStandard.Library": "1.6.1"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Microsoft.AspNetCore.Session.dll": {}
+        },
+        "compile": {
+          "lib/netstandard1.3/Microsoft.AspNetCore.Session.dll": {}
         }
       },
       "microsoft.aspnetcore.staticfiles/1.1.1": {
@@ -3344,6 +3361,13 @@
       "sha512": "sha512-au/AnM/xK2xsbFFafep0eZq/2/Y4V9gcYKXyprrk53i1/AF8sEwtVKxqvvgtAIbZDLrlkQhEGEVd89dZTwka8w==",
       "path": "microsoft.aspnetcore.server.kestrel/1.1.1",
       "hashPath": "microsoft.aspnetcore.server.kestrel.1.1.1.nupkg.sha512"
+    },
+    "microsoft.aspnetcore.session/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-69jU5B/xMqHqSN5e/57hGB2NdFMlYp6ATrXJGeAkWqcrRBuMuD4z/Sc22iq4qeI13kdcJ+bIDYNmK5gPNik2xQ==",
+      "path": "microsoft.aspnetcore.session/1.1.0",
+      "hashPath": "microsoft.aspnetcore.session.1.1.0.nupkg.sha512"
     },
     "microsoft.aspnetcore.staticfiles/1.1.1": {
       "type": "package",

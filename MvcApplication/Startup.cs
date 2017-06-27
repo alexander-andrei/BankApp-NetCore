@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,13 +31,23 @@ namespace MvcApplication
         {
             // Add framework services.
             services.AddMvc();
+            
+            // Adds a default in-memory implementation of IDistributedCache.
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.CookieName = ".BankApp.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+            });
 
             // Adds services required for using options.
             services.AddOptions();
 
             // Register configurations.
             services.Configure<ConnectionConfiguration>(Configuration);
-
+            
             // Add application services.
             services.AddScoped<IEngine, Engine>();
             services.AddTransient<Car, Car>();
@@ -60,6 +71,7 @@ namespace MvcApplication
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSession();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

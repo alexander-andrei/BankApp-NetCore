@@ -7,3 +7,4 @@
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/obj/Debug/netcoreapp1.1/MvcApplication.dll
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/obj/Debug/netcoreapp1.1/MvcApplication.pdb
 /home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1//MvcApplication.pdb
+/home/andreicaprar/RiderProjects/MvcApplication/MvcApplication/bin/Debug/netcoreapp1.1/obj/Debug/netcoreapp1.1/MvcApplication.pdb

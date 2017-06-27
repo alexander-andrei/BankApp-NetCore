@@ -73,12 +73,7 @@ namespace MvcApplication.Bundles.Core.Services
                 return false;
             }
 
-            if (user.Password != password)
-            {
-                return false;
-            }
-
-            return true;
+            return user.Password == password;
         }
     }
 }

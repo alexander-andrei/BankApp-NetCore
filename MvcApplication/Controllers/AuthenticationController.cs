@@ -7,7 +7,7 @@ namespace MvcApplication.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private UserManager _userManager;
+        private readonly UserManager _userManager;
 
         public AuthenticationController(IOptions<ConnectionConfiguration> connection)
         {
