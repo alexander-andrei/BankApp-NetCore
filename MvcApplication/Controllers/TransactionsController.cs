@@ -9,6 +9,7 @@ using MvcApplication.Bundles.Transactions.Api;
 using MvcApplication.Bundles.Transactions.Entity;
 using MvcApplication.Bundles.Transactions.Services;
 using MvcApplication.Config.Connection;
+using Microsoft.AspNetCore.Http;
 
 namespace MvcApplication.Controllers
 {
@@ -19,6 +20,7 @@ namespace MvcApplication.Controllers
         private readonly UserManager _userManager;
         private readonly BeneficiaryManager _beneficiaryManager;
         private readonly TransactionManager _transactionManager;
+        private readonly AuthenticationManager _authenticationManager;
 
         public TransactionsController(IOptions<ConnectionConfiguration> connection)
         {
@@ -27,11 +29,20 @@ namespace MvcApplication.Controllers
             _userManager = new UserManager(_connectionString);
             _beneficiaryManager = new BeneficiaryManager(_connectionString);
             _transactionManager = new TransactionManager(_connectionString);
+            _authenticationManager = new AuthenticationManager(_userManager);
         }
 
         [HttpGet]
         public ActionResult Index()
         {
+            var key = HttpContext.Session.GetInt32(AuthenticationManager.UserIdKey);
+            var auth = _authenticationManager.CheckIfUserIsAuthorized(key);
+
+            if (auth == false)
+            {
+                return RedirectToAction("Index", "Authentication");
+            }
+            
             return View();
         }
 

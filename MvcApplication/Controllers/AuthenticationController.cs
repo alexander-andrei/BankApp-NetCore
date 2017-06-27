@@ -16,7 +16,7 @@ namespace MvcApplication.Controllers
             _userManager = new UserManager(connection.Value.ConnectionString);
         }
 
-
+        [HttpGet]
         public ActionResult Index()
         {
             var errorMessage = HttpContext.Session.GetString(_errorMessageKey);
@@ -24,6 +24,7 @@ namespace MvcApplication.Controllers
             return View((object) errorMessage);
         }
 
+        [HttpPost]
         public ActionResult AuthenticateUser(string email, string password)
         {
             var authentication = _userManager.AuthenticateUser(email, password);
