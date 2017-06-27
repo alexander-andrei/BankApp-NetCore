@@ -10,6 +10,8 @@ namespace MvcApplication.Bundles.Core.Services
 {
     public class UserManager : BaseManager<User>
     {
+        private int _userId;
+        
         public UserManager(string connectionString) : base(connectionString)
         {
         }
@@ -73,7 +75,18 @@ namespace MvcApplication.Bundles.Core.Services
                 return false;
             }
 
+            SetUserId(user.Id);
             return user.Password == password;
+        }
+
+        public int GetUserId()
+        {
+            return _userId;
+        }
+        
+        private void SetUserId(int id)
+        {
+            _userId = id;
         }
     }
 }

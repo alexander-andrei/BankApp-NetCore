@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MvcApplication.Bundles.Core.Services;
@@ -7,6 +8,7 @@ namespace MvcApplication.Controllers
 {
     public class AuthenticationController : Controller
     {
+        private const string _errorMessageKey = "_authErrorMessage";
         private readonly UserManager _userManager;
 
         public AuthenticationController(IOptions<ConnectionConfiguration> connection)
@@ -17,18 +19,23 @@ namespace MvcApplication.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            var errorMessage = HttpContext.Session.GetString(_errorMessageKey);
+            
+            return View((object) errorMessage);
         }
 
-        public void AuthenticateUser(string email, string password)
+        public ActionResult AuthenticateUser(string email, string password)
         {
             var authentication = _userManager.AuthenticateUser(email, password);
 
             if (authentication == false)
             {
-                // TODO: Show failed to authenticate message
+                HttpContext.Session.SetString(_errorMessageKey, "Wrong email or password");
+                return RedirectToAction("Index", "Authentication");
             }
-            // TODO: if not false reddirect to succes
+            
+            HttpContext.Session.SetInt32(AuthenticationManager.UserIdKey ,_userManager.GetUserId());
+            return RedirectToAction("Index", "Home");
         }
     }
 }
